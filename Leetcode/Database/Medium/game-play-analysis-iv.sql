@@ -1,6 +1,7 @@
 /*
 
 https://leetcode.com/problems/game-play-analysis-iv
+https://leetcode.com/problems/game-play-analysis-iv/submissions/
 
 SQL Schema
 Table: Activity
@@ -43,3 +44,23 @@ Only the player with id 1 logged back in after the first day he had logged in so
 */
 
 
+/* Write your PL/SQL query statement below */
+
+-- select round((count_/all_players),2) as fraction
+-- from
+-- (select count(distinct day1.player_id) count_
+-- from activity day1 join activity day2 on day1.player_id=day2.player_id
+-- and day1.event_date+1=day2.event_date
+-- )A CROSS JOIN (select count( distinct player_id) as all_players from activity );
+
+
+select round(sum(case when a2.event_date is null then 0 else 1 end)/count(a1.player_id),2)   as fraction
+
+
+from
+(select player_id, min(event_date) as event_date
+from activity
+group by player_id
+)A1 left join activity A2 on
+A1.player_id=A2.player_id
+and A1.event_date=A2.event_date-1
