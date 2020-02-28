@@ -1,4 +1,6 @@
 /*
+https://leetcode.com/problems/students-and-examinations/
+
 
 Create table Students (student_id int, student_name varchar(20));
 Create table  Subjects (subject_name varchar(20));

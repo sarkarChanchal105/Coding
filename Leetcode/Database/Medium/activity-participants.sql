@@ -1,4 +1,5 @@
 /*
+https://leetcode.com/problems/activity-participants/
 
 SQL Schema
 Table: Friends
@@ -64,3 +65,18 @@ Horse Riding activity is performed by 1 friend, minimum number of participants, 
 Singing is performed by 2 friends (Victor J. and Jade W.)
 
 */
+
+
+select activity from
+(
+select activity,
+rank() over (order by count_ desc) as max_r,
+rank() over (order by count_ asc) as min_r
+from
+(
+select activity, count(1) as count_
+from Friends
+group by activity
+)A
+)B where
+max_r !=1 and min_r!=1
