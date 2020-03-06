@@ -6,22 +6,22 @@ https://leetcode.com/problems/continuous-subarray-sum/solution/
 
 class Solution:
     def checkSubarraySum(self, nums, k):
-        dict={}
-        sum=0
+        dict = {}
+        sum = 0
         dict[0] = -1
 
         for i in range(len(nums)):
-            sum+=nums[i]
-            if k!=0:
-                sum=sum%k  ## Get the reminder after diving by
+            sum += nums[i]
+            if k != 0:
+                sum = sum % k  ## Get the reminder after diving by
 
             ## if the reminder already exists then there must be
-            ## one or more numbers that disvisible by target.
+            ## one or more numbers that are disvisible by target.
             if sum in dict.keys():
-                if (i -dict[sum])>1: ## check if the sub array size is more than 2
+                if (i - dict[sum]) > 1:  ## check if the sub array size is more than 2
                     return True
             else:
-                dict[sum]=i  ## keep on adding sum and dicionay position
+                dict[sum] = i  ## keep on adding sum and dicionay position
         return False
 
 
