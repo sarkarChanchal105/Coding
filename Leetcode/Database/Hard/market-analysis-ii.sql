@@ -89,3 +89,61 @@ The answer for the user with id 4 is no because the brand of their second sold i
 
 */
 
+
+drop table Users;
+drop table  Orders;
+drop table Items;
+
+Create table  Users (user_id int, join_date date, favorite_brand varchar(10));
+create table  Orders (order_id int, order_date date, item_id int, buyer_id int, seller_id int);
+create table  Items (item_id int, item_brand varchar(10));
+
+Truncate table Users;
+insert into Users (user_id, join_date, favorite_brand) values ('1', to_date('2019-01-01','YYYY-MM-DD'), 'Lenovo');
+insert into Users (user_id, join_date, favorite_brand) values ('2', to_date('2019-02-09','YYYY-MM-DD'), 'Samsung');
+insert into Users (user_id, join_date, favorite_brand) values ('3', to_date('2019-01-19','YYYY-MM-DD'), 'LG');
+insert into Users (user_id, join_date, favorite_brand) values ('4', to_date('2019-05-21','YYYY-MM-DD'), 'HP');
+
+Truncate table Orders;
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('1', to_date('2019-08-01','YYYY-MM-DD'), '4', '1', '2');
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('2', to_date('2019-08-02','YYYY-MM-DD'), '2', '1', '3');
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('3', to_date('2019-08-03','YYYY-MM-DD'), '3', '2', '3');
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('4', to_date('2019-08-04','YYYY-MM-DD'), '1', '4', '2');
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('5', to_date('2019-08-04','YYYY-MM-DD'), '1', '3', '4');
+insert into Orders (order_id, order_date, item_id, buyer_id, seller_id) values ('6', to_date('2019-08-05','YYYY-MM-DD'), '2', '2', '4');
+
+Truncate table Items;
+insert into Items (item_id, item_brand) values ('1', 'Samsung');
+insert into Items (item_id, item_brand) values ('2', 'Lenovo');
+insert into Items (item_id, item_brand) values ('3', 'LG');
+insert into Items (item_id, item_brand) values ('4', 'HP');
+
+commit;
+
+
+/* Write your PL/SQL query statement below */
+
+
+select U.user_id "seller_id"
+,
+case when secon_fav.item_brand is null or secon_fav.item_brand!=favorite_brand then 'no'
+else 'yes' end as "2nd_item_fav_brand"
+-- ,secon_fav.item_brand
+-- ,favorite_brand
+
+from Users U left join
+(
+select ord.seller_id, ord.item_id,It.item_brand
+from
+(
+select seller_id,item_id,
+rank() over (partition by seller_id order by order_date) rank_
+from Orders
+)Ord join Items It on It.item_id=Ord.item_id
+where ord.rank_=2
+)secon_fav on secon_fav.seller_id=U.user_id
+
+order by 1
+
+
+
