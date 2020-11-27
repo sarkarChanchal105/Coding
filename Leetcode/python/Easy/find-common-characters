@@ -1,0 +1,35 @@
+"""
+https://leetcode.com/problems/find-common-characters/submissions/
+
+"""
+
+from collections import defaultdict
+
+
+class Solution:
+    def commonChars(self, A: List[str]) -> List[str]:
+        dict = defaultdict(int)
+
+        for a in A[0]:
+            dict[a] = dict[a] + 1
+
+        n = len(A)
+        for i in range(1, n):
+            tempDict = defaultdict(int)
+            for a in A[i]:
+                tempDict[a] += 1
+
+            for k, v in dict.items():
+                if k in tempDict.keys():
+                    dict[k] = min(dict[k], tempDict[k])
+                else:
+                    dict[k] = 0
+
+        # print(dict)
+        ans = []
+
+        for k, v in dict.items():
+            if v > 0:
+                for i in range(v):
+                    ans.append(k)
+        return ans

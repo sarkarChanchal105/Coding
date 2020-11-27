@@ -12,15 +12,22 @@ The range of numbers in the array is [-1000, 1000] and the range of the integer 
 
 """
 
-from collections import defaultdict
-
 class Solution:
-    def subarraySum(self, nums, k):
-        dict=defaultdict(int)
-        dict[0]=1
-        count=sum=0
-        for i in range(len(nums)):
-            sum+=nums[i]
-            if (sum-k) in dict.keys():
-                count+=dict[sum-k]
+    def subarraySum(self, nums, k) -> int:
+        count = 0
+        accumulative = {0:1}
+        curSum = 0
+        for index, num in enumerate(nums):
+            curSum += num
+            if curSum - k in accumulative:
+                count += accumulative[curSum - k]
+            accumulative[curSum] = accumulative[curSum] + 1 if curSum in accumulative else 1
+        return count
+
+object=Solution()
+
+nums=[3,4,7,2,-3,1,4,2]
+
+k=7
+print(object.subarraySum(nums,k))
 
