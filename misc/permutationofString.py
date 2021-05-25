@@ -1,23 +1,39 @@
 
 
 
-def permutation(string, ans='',i=0):
+def permutation(string):
 
-    n=len(string)
-    if n<=1:
-        return ans+string
-    else:
-        rest_of_string=string[0:i]+str[i+1]
-
+    arr=list(string)
+    #print(arr)
+    n=len(arr)
+    helperPermulation(arr,0,n-1)
 
 
 
 
-string='a'
+def helperPermulation(arr, left, right):
 
-result=permutation(string)
+    if left==right:
+        print(arr)
 
-print(result)
+    for i in range(left,right+1):
+        arr[left],arr[i]=arr[i],arr[left]
+        helperPermulation(arr, left+1, right)
+        arr[left],arr[i]=arr[i],arr[left]
+
+
+
+
+
+
+
+
+
+
+
+string='abcd'
+
+permutation(string)
 
 
 

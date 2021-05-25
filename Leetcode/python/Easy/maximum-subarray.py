@@ -38,23 +38,72 @@ Constraints:
 """
 
 
+# class Solution:
+#     def maxSubArray(self, nums):
+#
+#         lenght_dict={}
+#
+#         """
+#         The idea to calkculate if adding a value is inceasing the sum or decreasing the um.
+#
+#         """
+#         n = len(nums)
+#         current_max_sum = max_global = nums[0]  ## Set the initial value at oth index
+#
+#         lenght=1
+#
+#         for i in range(1, n):
+#
+#             ## which one is bigger. Current_max_sum+nums[i] or nums[i]
+#             ## Meaning should I start a new subarray ay nums[i] or continue the existing one
+#
+#             if current_max_sum + nums[i]<nums[i]:
+#                 lenght_dict[current_max_sum]=lenght
+#                 lenght=1
+#             else:
+#                 lenght +=1
+#             current_max_sum = max(nums[i], current_max_sum + nums[i])
+#             # print(current_max_sum)
+#
+#
+#             if current_max_sum > max_global:  ## set the maximum so far to global max
+#                 max_global = current_max_sum
+#
+#         return max_global
+
+
+
+
 class Solution:
     def maxSubArray(self, nums):
+
+        lenght_dict={}
 
         """
         The idea to calkculate if adding a value is inceasing the sum or decreasing the um.
 
         """
-        n = len(nums)
-        current_max_sum = max_global = nums[0]  ## Set the initial value at oth index
+        global_max=sum_so_far=nums[0]
 
-        for i in range(1, n):
+        n=len(nums)
 
-            ## which one is bigger. Current_max_sum+nums[i] or nums[i]
-            current_max_sum = max(nums[i], current_max_sum + nums[i])
-            # print(current_max_sum)
+        for i in range(1,n):
+            sum_so_far= max(nums[i],nums[i]+sum_so_far)
 
-            if current_max_sum > max_global:  ## set the maximum so far to global max
-                max_global = current_max_sum
+            global_max=max(global_max,sum_so_far)
 
-        return max_global
+        return global_max
+
+
+
+
+
+
+
+object=Solution()
+
+nums=[-2,1,-3,4,-1,2,1,-5,4]
+
+print(object.maxSubArray(nums))
+
+

@@ -82,10 +82,12 @@ The comment with id 6 is a comment on a deleted post with id 7 so we ignored it.
 select distinct sub_id as post_id, nvl(a.blah,0) as number_of_comments
 from Submissions b
 left join
-(select parent_id,nvl(count(distinct sub_id),0) as blah
+(
+select parent_id,nvl(count(distinct sub_id),0) as blah
 from Submissions
 where parent_id is not null
-group by parent_id) a
+group by parent_id
+) a
 on sub_id=a.parent_id
 where b.parent_id is null
 order by sub_id

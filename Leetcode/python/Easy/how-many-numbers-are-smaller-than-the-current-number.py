@@ -35,8 +35,13 @@ Constraints:
 
 
 class Solution:
+    """
+    So the idea is to  sort the array in reverse order and keep on adding the elements in the a dictionay how far each element is from the last element
+
+    """
+
     def smallerNumbersThanCurrent(self, nums):
-        nums1=sorted(nums,reverse=True)
+        nums1=sorted(nums,reverse=True) ## sort the numbers in reverse order
         out=[]
         dict={}
         n=len(nums1)

@@ -56,8 +56,7 @@ class Solution:
             matrix[left][right] = 1  ## hence return 1
             return matrix[left][right]
 
-        if s[left] == s[
-            right]:  ## the left and right chars match, then  add 2 to the result and recusovely call for left+1 and right -1
+        if s[left] == s[right]:  ## the left and right chars match, then  add 2 to the result and recusovely call for left+1 and right -1
             matrix[left][right] = 2 + self.lps(s, left + 1, right - 1, matrix)  ## store the resulr in matrix
             return matrix[left][right]
 
