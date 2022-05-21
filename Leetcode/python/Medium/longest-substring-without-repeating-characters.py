@@ -37,30 +37,53 @@ s consists of English letters, digits, symbols and spaces.
 
 
 class Solution:
+    # def lengthOfLongestSubstring(self, s: str) -> int:
+    #     hashTable = {}
+    #     maxLength = 0
+    #
+    #     i = 0  ## initiliaze i with 0
+    #     for j in range(len(s)):  ## for each character in the string
+    #
+    #         currChr = s[j]  ## current character
+    #
+    #         if currChr in hashTable:  ## if current character is repeated
+    #             #i = max(hashTable[currChr] + 1, i)  ## update the pointer i
+    #             i+=1
+    #
+    #
+    #         maxLength = max(maxLength, j - i + 1)  ## calculate the lemght and keep the max so fat
+    #
+    #         hashTable[
+    #             currChr] = j  ## keep the position of the character which will be used to set the value of i if this character occurs again.
+    #
+    #     return maxLength
+
     def lengthOfLongestSubstring(self, s: str) -> int:
-        hashTable = {}
+        set_substring = set()
         maxLength = 0
+        left = right = 0
+        max_substring = 0
 
-        i = 0  ## initiliaze i with 0
-        for j in range(len(s)):  ## for each character in the string
+        while right < len(s):
+            print("set_substring: {}".format(set_substring))
+            while s[right] in set_substring:
+                set_substring.remove(s[left])
+                left += 1
 
-            currChr = s[j]  ## current character
+            max_substring = max(max_substring, right - left + 1)
 
-            if currChr in hashTable:  ## if current character is repeated
-                i = max(hashTable[currChr] + 1, i)  ## update the pointer i
+            set_substring.add(s[right])
 
-            maxLength = max(maxLength, j - i + 1)  ## calculate the lemght and keep the max so fat
+            right += 1
 
-            hashTable[
-                currChr] = j  ## keep the position of the character which will be used to set the value of i if this character occurs again.
-
-        return maxLength
+        return max_substring
 
 
 object=Solution()
 
 s="bbbbb"
 s="abba"
+s="pwwkew"
 
 print(object.lengthOfLongestSubstring(s))
 

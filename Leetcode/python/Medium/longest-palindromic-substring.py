@@ -65,3 +65,10 @@ class Solution:
 
         ## when the loop breaks, left much have gone 1 index left. Hence returning lefrIdx+1.
         return [startIdx + 1, endIdx]
+
+
+
+s='chabanchal'
+object=Solution()
+
+print(object.longestPalindrome(s))

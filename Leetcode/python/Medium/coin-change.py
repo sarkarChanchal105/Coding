@@ -43,7 +43,7 @@ Constraints:
 
 
 class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
+    def coinChange(self, coins, amount: int) -> int:
 
         """
         Indea is to create DP araay to store the minimum number of coints required to get the given amount
@@ -55,10 +55,10 @@ class Solution:
         dp = [float("inf")] * (amount + 1)  # 3 initalize the DP array with all infinity
         dp[0] = 0  ## the index=0 will be 0
 
-        for target, val in enumerate(
-                dp):  ## i stand for the amount. Calculate the minimum number of coins required to form the value i
+        for target, val in enumerate(dp):  ## i stand for the amount. Calculate the minimum number of coins required to form the value i
             for coin in coins:
                 if target - coin >= 0:  ## if the value of the coint is less than equal to the target, then to get the target value with the coins
+                    temp=target-coin
                     dp[target] = min(dp[target], dp[target - coin] + 1)
 
         ## the last value at the dp array returns the minimum numer of coins required
@@ -66,3 +66,11 @@ class Solution:
         if dp[-1] == float("inf"):
             return -1
         return dp[-1]
+
+
+coins = [1,2,5]
+amount = 11
+object=Solution()
+
+print(object.coinChange(coins, amount))
+

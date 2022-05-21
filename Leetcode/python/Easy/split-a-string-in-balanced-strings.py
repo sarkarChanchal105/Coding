@@ -35,14 +35,23 @@ Explanation: s can be split into "RL", "RRRLLRLL", since each substring contains
 class Solution:
     def balancedStringSplit(self, s: str) -> int:
 
-        c = 0
-        n = 0
-        for a in s:
-            if a == 'R':
-                c += 1
-            else:
-                c -= 1
-            if c == 0:
-                n += 1
-        return n
+        """
+        Loop from left to right maintaining a balance variable when it gets an L increase it by one otherwise decrease it by one.
 
+        Whenever the balance variable reaches zero then we increase the answer by one.
+
+        """
+
+        balanceVar = 0
+        result = 0
+
+        for chr in s:
+            if chr == 'L':
+                balanceVar += 1
+            else:
+                balanceVar -= 1
+
+            if balanceVar == 0:
+                result += 1
+
+        return result

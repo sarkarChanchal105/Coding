@@ -21,10 +21,9 @@ Input words contain only lowercase letters.
 Follow up:
 Try to solve it in O(n log k) time and O(n) extra space.
 
+
 """
 import heapq, collections
-
-
 class Solution:
     # def topKFrequent(self, words, k):
     #     hash_table = {}
@@ -46,14 +45,33 @@ class Solution:
     #     return result
     def topKFrequent(self, words, k):
         count = collections.Counter(words)
+
         heap = [(-freq, word) for word, freq in count.items()]
+        print("Before heapify :",heap)
         heapq.heapify(heap)
-        return [heapq.heappop(heap)[1] for _ in range(k)]
+        print("After heapify :",heap)
 
+        for _ in range(k):
+            print("Poiing :",heapq.heappop(heap))
 
-words=["i", "love", "leetcode", "i", "love", "coding"]
+        #return [heapq.heappop(heap)[1] for _ in range(k)]
+
+        #frequenWords=heapq.nlargest(k,count.items(),key=lambda x:(x[1],x[0]))
+
+        #print(frequenWords)
+
+        #return [x[0] for x in frequenWords]
+
+words=["leetcode", "a","i", "love", "coding","i", "love","a"]
 k=2
 
 object=Solution()
-
 print(object.topKFrequent(words,k))
+
+
+
+
+
+
+
+

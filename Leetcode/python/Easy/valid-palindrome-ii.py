@@ -17,19 +17,45 @@ The string will only contain lowercase characters a-z. The maximum length of the
 
 """
 
+"""
+
+Using Two pointer approach.
+
+increment left and decrement right untile we find a mismtach on characters
+
+and then check if deleting at least one of the mismatched character results in a Palindrom.
+
+
+"""
+
+
 class Solution:
     def validPalindrome(self, s: str) -> bool:
 
-        left, right = 0, len(s)
+        n = len(s)
+        left, right = 0, n - 1
 
-        number_of_mismatch=0
+        while left < right:
+            if s[left] != s[right]:
+                return self.isPalindrome(s, left + 1, right, n) or self.isPalindrome(s, left, right - 1, n)
 
-        while left <right and number_of_mismatch<=1:
-            if s[left]!=s[right]:
-                number_of_mismatch+=1
+            left += 1
+            right -= 1
 
-        if number_of_mismatch>1:
-            return False
         return True
 
+    def isPalindrome(self, s, i, j, n):
+
+        #         print(s, i,j)
+
+        #         if i<0 or j>=n:
+        #             return False
+
+        while i < j:
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+
+        return True
 

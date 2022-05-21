@@ -34,3 +34,31 @@ Constraints:
 1 <= nums[i] <= 104
 
 """
+
+
+class Solution:
+    def minOperations(self, nums) -> int:
+
+        #print(nums)
+
+        number_of_operations=0
+
+        for i in range(1,len(nums)): # starting from the second element
+
+            if nums[i-1]>=nums[i]: ## check if the previous element is greater or qual to current element
+                diff=nums[i-1]-nums[i]+1 ## calculate the minimum number of operations to make the current number one more than the previous nu,ber
+                number_of_operations+=diff
+                nums[i]=nums[i]+diff ## update the current number so that the array becomes increasing strictly
+        #print(number_of_operations)
+        return number_of_operations
+
+nums = [1, 5, 2, 4, 1]
+object=Solution()
+print(object.minOperations(nums))
+
+
+
+
+
+
+

@@ -22,3 +22,40 @@ Output: 0
 
 
 """
+
+
+class Solution:
+    def numSubarrayProductLessThanK(self, nums, k) -> int:
+
+        n = len(nums)
+        result = 0
+
+        ## Initialize two pointers
+        left = right = 0
+
+        product = 1  ## Initliaze the value of product
+
+        while right < n:  ##
+            product *= nums[right]  ## calculate the curent product
+
+            while product >= k and left <= right:  ## if the porudct is more than k then
+                product = product / nums[left]  ## Divide the value at left
+                left += 1  ## Keep on Dviding until th produc is less than K
+
+            result = result + right - left + 1  ## Calculte the number of sub arrays so far
+
+            right += 1  ## Each step incremenr rght pointer
+
+        return result
+
+
+object=Solution()
+
+nums=[10,5,2,6]
+k=100
+
+
+print(object.numSubarrayProductLessThanK(nums,k))
+
+
+

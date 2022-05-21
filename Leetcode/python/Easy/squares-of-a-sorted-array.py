@@ -27,6 +27,7 @@ A is sorted in non-decreasing order.
 
 #         return sorted([x**2 for x in A])
 
+## Better solution
 class Solution:
     def sortedSquares(self, A):
         result = [None for _ in A]

@@ -1,0 +1,108 @@
+""""
+https://leetcode.com/problems/task-scheduler/
+
+Given a characters array tasks, representing the tasks a CPU needs to do, where each letter represents a different task. Tasks could be done in any order. Each task is done in one unit of time. For each unit of time, the CPU could complete either one task or just be idle.
+
+However, there is a non-negative integer n that represents the cooldown period between two same tasks (the same letter in the array), that is that there must be at least n units of time between any two same tasks.
+
+Return the least number of units of times that the CPU will take to finish all the given tasks.
+
+
+
+Example 1:
+
+Input: tasks = ["A","A","A","B","B","B"], n = 2
+Output: 8
+Explanation:
+A -> B -> idle -> A -> B -> idle -> A -> B
+There is at least 2 units of time between any two same tasks.
+Example 2:
+
+Input: tasks = ["A","A","A","B","B","B"], n = 0
+Output: 6
+Explanation: On this case any permutation of size 6 would work since n = 0.
+["A","A","A","B","B","B"]
+["A","B","A","B","A","B"]
+["B","B","B","A","A","A"]
+...
+And so on.
+Example 3:
+
+Input: tasks = ["A","A","A","A","A","A","B","C","D","E","F","G"], n = 2
+Output: 16
+Explanation:
+One possible solution is
+A -> B -> C -> A -> D -> E -> A -> F -> G -> A -> idle -> idle -> A -> idle -> idle -> A
+
+
+Constraints:
+
+1 <= task.length <= 104
+tasks[i] is upper-case English letter.
+The integer n is in the range [0, 100].
+
+"""
+
+"""
+
+
+Idea here is to find the maximum between these two
+
+
+Situations
+
+1. The most frequent task is not frequent enough to force idle time
+
+2.  The most frequent task is frequent enough to force idle time
+
+
+The answer will be the maxium between the above two
+
+"""
+"""
+Complexity Analysis
+
+Time Complexity: \mathcal{O}(N_{total})O(N 
+total
+​
+ ), where N_{total}N 
+total
+​
+  is a number of tasks to execute. This time is needed to iterate over the input array tasks and to compute the array frequencies. Array frequencies contains 26 elements, and hence all operations with it takes constant time.
+
+Space Complexity: O(1)O(1), to keep the array frequencies of 26 elements.
+"""
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+
+        frequencies = [0] * 26  ## Since there are onl english alpbets
+
+        for _chr in tasks:
+            frequencies[ord(_chr) - ord('A')] += 1
+
+        # print(frequencies)
+
+        ## Max Frequency
+
+        f_max = max(frequencies)
+
+        ## Count number of tasks with maximum frequencies
+
+        n_max = 0
+
+        for freq in frequencies:
+            if freq == f_max:
+                n_max += 1
+        print(n_max)
+
+        ## The most frequent task is not frequent enough to force idle time
+        count1 = len(tasks)
+
+        ## The most frequent task is frequent enough to force idle time
+        ## since at the end we dont need any idle time. hence f_max-1
+        ## 1 for task execution + n for idel time
+        count2 = (f_max - 1) * (n + 1) + n_max
+
+        return max(count1, count2)
+
