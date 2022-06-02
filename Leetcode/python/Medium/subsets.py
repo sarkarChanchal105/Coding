@@ -26,33 +26,58 @@ Output:
 """
 
 
+# class Solution:
+#     # def subsets(self, String, current='', index=0):
+#     #     if index == len(String):
+#     #         print(current)
+#     #         return
+#     #
+#     #     self.subsets(String, current, index + 1)
+#     #     self.subsets(String, current+String[index], index + 1)
+#
+#
+#     def subsets1(self, String, current=[[]], index=-1):
+#         if index == len(String):
+#             print(current)
+#             return
+#
+#         #print(current)
+#         self.subsets1(String, current, index + 1)
+#         #current+=[[String[index]]]
+#         #current[index].append(String[index])
+#         current.append([String[index]])
+#         self.subsets1(String,current,index + 1)
+#
+#
+# #
+# # String='123'
+# #
+# object=Solution()
+# #
+# # #object.subsets(String)
+#
+# String=[1,2,3]
+#object.subsets1(String)
+
+from typing import List
+
+
 class Solution:
-    def subsets(self, String, current='', index=0):
-        if index == len(String):
-            print(current)
-            return
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        output = [[]]
 
-        self.subsets(String, current, index + 1)
-        self.subsets(String, current+String[index], index + 1)
+        for num in nums:
+            t=[curr + [num] for curr in output]
+            print(t)
+            #output +=
+            output+=t
 
+        return output
 
-    def subsets1(self, String, current=[[]], index=0):
-        if index == len(String):
-            print(current)
-            return
-
-        #print(current)
-        self.subsets1(String, current, index + 1)
-        current+=[[String[index]]]
-        self.subsets1(String,current,index + 1)
-
-
-
-String='123'
 
 object=Solution()
 
-#object.subsets(String)
+nums=[1,2,3]
 
-String=[1,2,3]
-object.subsets1(String)
+print(object.subsets(nums))
