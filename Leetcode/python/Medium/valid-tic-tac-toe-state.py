@@ -57,8 +57,8 @@ from typing import List,Tuple
 class Solution:
     def validTicTacToe(self, board: List[str]) -> bool:
 
+        ## convert the board into 2D 3X3 matrix , get the count of Xs and Os in the matrix
         matrix, counts_tuple = self.convertboardtomatrix(board)
-
         cnt_x, cnt_o, cnt_none = counts_tuple
 
         ## if number x is less than number O then its invalid
@@ -72,59 +72,73 @@ class Solution:
         ## if number of X and Number of Os are equal then if X is a winner then we cant have equal number of zeroes, since the game will end once X is the winner
         if cnt_x == cnt_o:
             ## Check if X is the winner
-            ##print(self.check_who_iswinner(matrix))
-            if self.check_who_iswinner(matrix) == 'X':
+            winner=self.check_who_iswinner(matrix)
+            if winner == {'X'} or winner== {'X', 'O'} or  winner== {'O', 'X'}:
                 return False
 
-        ## if number of X - Number of Os =1 then if O is the winner then we can have this conditon
+        ## if number of X - Number of Os =1 then if O is the winner then the game will end before Player X puts another X in the matrix
         if cnt_x - cnt_o == 1:
-            if self.check_who_iswinner(matrix) == 'O':
+            winner = self.check_who_iswinner(matrix)
+            if winner == {'O'} or winner=={'O','X'}:
                 return False
 
+        ## if None of the above conditions satifies then return True
         return True
 
-        ## Check if O is the winner then X=3 , O=3
+    """
+    This function checks if X or O is the winner by traversing all rows, columns and diagonals
+    """
 
-    def check_who_iswinner(self, matrix) -> str:
+    def check_who_iswinner(self, matrix) -> set:
 
-        ## Check by rows
+        winners = set()  ## Let's find out if there are multiple winners
+
+        ## Check if any of the rows have all Xs or Os
         for i in range(len(matrix)):
             set_row = set(matrix[i])
             if len(set_row) == 1:
                 if 'X' in set_row or 'O' in set_row:
-                    return list(set_row)[0]
+                    winners.add(list(set_row)[0])
+                    # return list(set_row)[0]
 
-        ## Check by columns
+        ## Check if any of the columns have all Xs or Os
         for i in range(len(matrix[0])):
             set_columns = set()
             for j in range(len(matrix)):
                 set_columns.add(matrix[j][i])
             if len(set_columns) == 1:
                 if 'X' in set_columns or 'O' in set_columns:
-                    return list(set_columns)[0]
+                    winners.add(list(set_columns)[0])
+                    # return list(set_columns)[0]
 
-        ## Check by diagonal-1
-
+        ## Check is diagonal-1 (left to right),
+        ## have all Xs or Os
         set_diag_1 = set()
         for i in range(len(matrix)):
             set_diag_1.add(matrix[i][i])
-
         if len(set_diag_1) == 1:
             if 'X' in set_diag_1 or 'O' in set_diag_1:
-                return list(set_diag_1)[0]
+                winners.add(list(set_diag_1)[0])
+                # return list(set_diag_1)[0]
 
-        ## Check by diagonal-2
+        ## Check is diagonal-2 (right to right),
+        ## have all Xs or Os
         set_diag_2 = set()
-        row=0; col=len(matrix[0])-1
-        while col>=0:
+        row = 0;
+        col = len(matrix[0]) - 1
+        while col >= 0:
             set_diag_2.add(matrix[row][col])
-            col-=1
-            row+=1
+            col -= 1
+            row += 1
         if len(set_diag_2) == 1:
             if 'X' in set_diag_2 or 'O' in set_diag_2:
-                return list(set_diag_2)[0]
-
-        return 'Z'
+                winners.add(list(set_diag_2)[0])
+                # return list(set_diag_2)[0]
+        #print("Winners are: {}".format(winners))
+        # return 'Z' ## returns default if any of the above consitions does not satify
+        if winners:
+            return winners
+        return {'z'}
 
     def convertboardtomatrix(self, board: str):
         matrix = [[None for _ in range(3)] for _ in range(3)]
@@ -133,13 +147,14 @@ class Solution:
         for strng in board:
             col = 0
             for chrr in strng:
+                ## Keep count of the Xs, Os since these will help us to determine of the states are valid or not
                 if chrr == 'X':
                     cnt_x += 1
                 elif chrr == 'O':
                     cnt_o += 1
                 else:
                     cnt_none += 1
-                matrix[row][col] = chrr
+                matrix[row][col] = chrr  ## fill in the matrix with appropriate characters
                 col += 1
             row += 1
         return matrix, (cnt_x, cnt_o, cnt_none)
@@ -148,6 +163,9 @@ class Solution:
 object=Solution()
 
 #board=["XOX","O O","XOX"]
-board=["XXO","XOX","OXO"]
-
+#board=["XXO","XOX","OXO"]
+board=["OOO","   ","XXX"]
+#board=["XXX","   ","OOO"]
+#board=["XOX","O O","XOX"]
+board=["OOO","XXO","XXX"]
 print(object.validTicTacToe(board))

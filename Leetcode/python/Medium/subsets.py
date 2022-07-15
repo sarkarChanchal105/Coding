@@ -63,18 +63,17 @@ from typing import List
 
 
 class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        output = [[]]
+        def subsets(self, nums: List[int], current=[[]], index=0) -> List[List[int]]:
+            output=[[]]
 
-        for num in nums:
-            t=[curr + [num] for curr in output]
-            print(t)
-            #output +=
-            output+=t
+            for num in nums:
+                #t=[curr + [num] for curr in output]
+                t=[]
+                for curr in output:
+                    t.append(curr+[num])
+                output+=t
 
-        return output
-
+            return output
 
 object=Solution()
 

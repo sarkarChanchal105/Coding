@@ -55,37 +55,79 @@ n == grid[i].length
 #                     count_+=1
 #         return count_
 
+#
+# class Solution:
+#     def countNegatives(self, grid) -> int:
+#         count_ = 0
+#         num_row = len(grid)
+#         num_col = len(grid[0])
+#
+#         if num_row == 0:
+#             return 0
+#         if num_col == 0:
+#             return 0
+#
+#         ## Take care of the edge cases
+#         if num_col == 2 and num_row == 1:
+#             for a in grid[0]:
+#                 if a < 0:
+#                     count_ += 1
+#             return count_
+#
+#         for i in range(num_row):
+#             for j in range(num_col):
+#                 if grid[i][j] < 0:  # if we find the a negative number there no need to traverse rest of the
+#                     # columns in the row.
+#                     count_ += num_col - j
+#                     break
+#
+#         return count_
+
+from typing import List
+
+"""
+The idea here is to use binary search to find out the first occurrence of negative number in a given row.
+since the rows are in non decresing order. Once we find the first occurence of negaive number, all numbers next
+to the first negaive number will always be neagive number, Hence we can calculate the  number of neagive numbers
+as  Total numbber of elements in a row (n) - index of the first occurnece of the neagive number.
+
+Assuming the matrix is m x n
+
+"""
 
 class Solution:
-    def countNegatives(self, grid) -> int:
-        count_ = 0
-        num_row = len(grid)
-        num_col = len(grid[0])
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        count=0
 
-        if num_row == 0:
-            return 0
-        if num_col == 0:
-            return 0
+        for i in range(m):
+            first=self.occurenceFirstNegative(grid[i], n)
+            count+=n-first
+        return count
+    def occurenceFirstNegative(self, array, n): ## Using modfied version of binary search.
+        left = 0
+        right = n-1
+        firstOccurence = n  ## default value of the first occurence of negative number
 
-        ## Take care of the edge cases
-        if num_col == 2 and num_row == 1:
-            for a in grid[0]:
-                if a < 0:
-                    count_ += 1
-            return count_
+        while left <= right:
+            mid = (left + right) // 2
+            if array[mid] >= 0: ## if mid points to a value greater than zero then move left to mid+1
+                left = mid + 1
 
-        for i in range(num_row):
-            for j in range(num_col):
-                if grid[i][j] < 0:  # if we find the a negative number there no need to traverse rest of the
-                    # columns in the row.
-                    count_ += num_col - j
-                    break
+            if array[mid] < 0:  ## if mid points to a negative number, then try to find out are there any  more negative numbers in the array.
+                firstOccurence = mid ## save the mid
+                right = mid - 1 ## update right to  mid -1
 
-        return count_
+        return firstOccurence
 
 
 object= Solution()
 
-grid=[[7,-3]]
+#grid=[[7,-3]]
 #grid=[[3,2],[-3,-3],[-3,-3],[-3,-3]]
+grid = [[3,2],[1,0]]
+grid = [[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]]
+grid= [[5,1,0],[-5,-5,-5]]
+
 print(object.countNegatives(grid))
