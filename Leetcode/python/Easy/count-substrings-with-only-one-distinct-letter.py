@@ -53,3 +53,36 @@ S="aaaba"
 
 print(object.countLetters(S))
 
+## Efficient Approach
+
+"""
+The idea here is to use two pointer approach left and right.
+
+if the character left is equal to the character at right then keep on incrementing right, dont move left.
+
+else, move left to current right and increment right.
+
+We are using the concept of arithmetic progression we counting the number of substrings between left and right.
+
+"""
+
+
+class Solution:
+    def countLetters(self, s: str) -> int:
+
+        left, right, count, TotalCount = 0, 1, 1, 1  ## initilization
+
+        while right < len(s):
+
+            if s[left] == s[right]:
+                count += 1  ## increment counter when we are encountering same characters
+
+            else:
+                left = right
+                count = 1  ## reset counter to 1 since at left we know at least one character is distinct
+
+            right += 1  ## keep on moving right by one
+            TotalCount += count  ## Keep on counting the number of the substrings between left and right
+
+        return TotalCount
+
